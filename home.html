@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>어린이 친화 글쓰기</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="app-frame">
+    <!-- 브라우저 상단 바 -->
+    <header class="browser-bar">
+      <div class="browser-icons">
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+      </div>
+      <div class="address-bar">
+        <span class="address-url">children-writing.site</span>
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <!-- 메인 영역 -->
+    <main class="main-area">
+      <!-- 왼쪽 내비게이션 레일 -->
+      <nav class="nav-rail" aria-label="주요 메뉴">
+        <div class="nav-menu-fab">
+          <button class="icon-button" type="button" aria-label="메뉴 열기">
+            <div class="icon-button-circle"></div>
+          </button>
+          <button class="fab" type="button">
+            <span>쓰기</span>
+          </button>
+        </div>
+
+        <div class="nav-items">
+          <div class="nav-item">
+            <div class="nav-item-icon-bg">
+              <div class="nav-item-icon"></div>
+            </div>
+            <span class="nav-item-label">둘러보기</span>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg">
+              <div class="nav-item-icon"></div>
+            </div>
+            <span class="nav-item-label">프로젝트</span>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg selected">
+              <div class="nav-item-icon"></div>
+            </div>
+            <span class="nav-item-label selected">홈</span>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg">
+              <div class="nav-item-icon"></div>
+            </div>
+            <span class="nav-item-label">라이브러리</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 오른쪽 콘텐츠 -->
+      <section class="content-wrapper">
+        <div class="content-card">
+          <!-- 앱 바 -->
+          <header class="app-bar">
+            <div class="app-bar-row">
+              <h1 class="app-bar-title-large">어린이 친화 글쓰기</h1>
+              <div class="app-bar-actions">
+                <div class="app-bar-icon" aria-hidden="true"></div>
+                <div class="app-bar-icon" aria-hidden="true"></div>
+              </div>
+            </div>
+          </header>
+
+          <!-- 홈 섹션 -->
+          <section class="home-section" aria-label="추천 글쓰기 활동">
+            <div class="home-title-row">
+              <h2 class="home-title-text">홈</h2>
+              <div class="home-title-icon" aria-hidden="true"></div>
+            </div>
+
+            <!-- 큰 카드들 (캐러셀 느낌) -->
+            <div class="home-carousel">
+              <article class="home-card" aria-label="활동 카드 1"></article>
+              <article class="home-card" aria-label="활동 카드 2"></article>
+              <article class="home-card" aria-label="활동 카드 3"></article>
+            </div>
+
+            <!-- 아래 상세 카드들 -->
+            <div class="home-details-row">
+              <div class="home-detail">
+                <div class="home-detail-text">
+                  <div class="home-detail-label">오늘의 이야기 쓰기</div>
+                  <div class="home-detail-support">오늘 있었던 일을 쉽고 재밌게 정리해요.</div>
+                </div>
+                <div class="home-detail-icon" aria-hidden="true"></div>
+              </div>
+
+              <div class="home-detail">
+                <div class="home-detail-text">
+                  <div class="home-detail-label">그림 보고 글쓰기</div>
+                  <div class="home-detail-support">그림을 보며 상상한 이야기를 적어봐요.</div>
+                </div>
+                <div class="home-detail-icon" aria-hidden="true"></div>
+              </div>
+
+              <div class="home-detail">
+                <div class="home-detail-text">
+                  <div class="home-detail-label">단어 놀이</div>
+                  <div class="home-detail-support">새로운 단어를 배우고 문장을 만들어봐요.</div>
+                </div>
+                <div class="home-detail-icon" aria-hidden="true"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>어린이친화 글쓰기 - 홈페이지</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="app-frame">
+    <div class="main-area">
+      <aside class="nav-rail">
+        <div class="nav-menu-fab">
+          <button class="icon-button">
+            <div class="icon-button-circle"></div>
+          </button>
+          <button class="fab"><span>글쓰기</span></button>
+        </div>
+        <nav class="nav-items">
+          <div class="nav-item">
+            <div class="nav-item-icon-bg selected"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label selected">Label</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label">Label</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label">Label</div>
+          </div>
+        </nav>
+      </aside>
+
+      <section class="content-wrapper">
+        <div class="content-card">
+          <!-- 상단 앱바 -->
+          <header class="app-bar">
+            <div class="app-bar-row">
+              <div class="app-bar-icon"></div>
+              <div class="app-bar-actions">
+                <div class="app-bar-icon"></div>
+                <div class="app-bar-icon"></div>
+              </div>
+            </div>
+            <div class="app-bar-title-large">Label</div>
+          </header>
+
+          <!-- Home 섹션 -->
+          <section class="home-section">
+            <div class="home-title-row">
+              <div class="home-title-text">지금 바로 글쓰러 가기</div>
+              <div class="home-title-icon"></div>
+            </div>
+
+            <div class="home-carousel">
+              <div class="home-card"></div>
+              <div class="home-card"></div>
+            </div>
+
+            <div class="home-details-row">
+              <div class="home-detail">
+                <div class="home-detail-text">
+                  <div class="home-detail-label">새로운 글쓰러가기</div>
+                  <div class="home-detail-support">Title</div>
+                </div>
+                <div class="home-detail-icon"></div>
+              </div>
+              <div class="home-detail">
+                <div class="home-detail-text">
+                  <div class="home-detail-label">기존에 쓰던 글 쓰러가기</div>
+                  <div class="home-detail-support">Title</div>
+                </div>
+                <div class="home-detail-icon"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

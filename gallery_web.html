@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>어린이친화 글쓰기 - Gallery Web</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+      background: #fef7ff;
+      padding: 24px;
+    }
+    .app-frame {
+      max-width: 905px;
+      height: 680px;
+      margin: 0 auto;
+      border: 8px solid #cac4d0;
+      border-radius: 18px;
+      background: #fef7ff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      box-shadow: 0 0.6px 0 rgba(0,0,0,0.15);
+      background: #fef7ff;
+    }
+    .browser-icons { display: flex; gap: 12px; }
+    .browser-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%; background: #e0e0e0;
+    }
+    .address-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f3edf7;
+      padding: 6px 16px;
+      border-radius: 46px;
+    }
+    .address-url {
+      color: #1d1b20;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+    .avatar {
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      background: #79747e;
+      color: #fff;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .main-area {
+      flex: 1;
+      display: flex;
+      position: relative;
+      padding-top: 4px;
+    }
+    .nav-rail {
+      width: 96px;
+      padding: 44px 0 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      overflow: hidden;
+    }
+    .nav-menu-fab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .icon-button {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .icon-button-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 100px;
+      background: #e0e0e0;
+    }
+    .fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #eaddff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .fab span {
+      font-size: 14px;
+      color: #4f378a;
+      font-weight: 500;
+    }
+    .nav-items {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+    .nav-item {
+      width: 100%;
+      padding: 6px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .nav-item-icon-bg {
+      width: 56px;
+      height: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-item-icon-bg.selected { background: #e8def8; }
+    .nav-item-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #625b71;
+    }
+    .nav-item-label {
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: #49454f;
+      text-align: center;
+    }
+    .nav-item-label.selected { color: #625b71; }
+
+    .content-wrapper {
+      flex: 1;
+      padding: 24px 16px 24px 0;
+      display: flex;
+      align-items: stretch;
+    }
+    .content-card {
+      background: #ffffff;
+      border-radius: 28px;
+      flex: 1;
+      padding: 16px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .app-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ece6f0;
+    }
+    .app-bar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 8px 0 0;
+    }
+    .app-bar-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .app-bar-icon {
+      width: 40px; height: 40px;
+      border-radius: 100px; background: #e0e0e0;
+    }
+    .app-bar-title-large {
+      font-size: 36px;
+      color: #1d1b20;
+      line-height: 1.2;
+    }
+
+    .gallery-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 16px 0;
+      height: 520px;
+      overflow: auto;
+    }
+    .gallery-main {
+      flex: 1 0 370px;
+      min-width: 370px;
+      max-width: 460px;
+      height: 356px;
+      border-radius: 12px;
+      background: #ece6f0;
+    }
+    .gallery-column {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .img-block {
+      background: #ece6f0;
+      border-radius: 12px;
+    }
+    .h176 { height: 176px; }
+    .w250 { width: 250px; }
+    .w370 { width: 370px; }
+    .w140 { width: 140px; }
+    .flex1 { flex: 1; min-width: 0; }
+
+  </style>
+</head>
+<body>
+  <div class="app-frame">
+    <header class="browser-bar">
+      <div class="browser-icons">
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+      </div>
+      <div class="address-bar">
+        <span class="address-url">www.url.com</span>
+        <span>★</span>
+      </div>
+      <div class="avatar">M</div>
+      <span>⋮</span>
+    </header>
+
+    <div class="main-area">
+      <aside class="nav-rail">
+        <div class="nav-menu-fab">
+          <button class="icon-button">
+            <div class="icon-button-circle"></div>
+          </button>
+          <button class="fab"><span>글쓰기</span></button>
+        </div>
+        <nav class="nav-items">
+          <div class="nav-item">
+            <div class="nav-item-icon-bg.selected"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label selected">Label</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label">Label</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-item-icon-bg"><div class="nav-item-icon"></div></div>
+            <div class="nav-item-label">Label</div>
+          </div>
+        </nav>
+      </aside>
+
+      <section class="content-wrapper">
+        <div class="content-card">
+          <header class="app-bar">
+            <div class="app-bar-row">
+              <div class="app-bar-icon"></div>
+              <div class="app-bar-actions">
+                <div class="app-bar-icon"></div>
+                <div class="app-bar-icon"></div>
+              </div>
+            </div>
+            <div class="app-bar-title-large">Label</div>
+          </header>
+
+          <section class="gallery-grid">
+            <div class="gallery-main"></div>
+
+            <div class="gallery-column">
+              <div class="img-block h176" style="width: 117px;"></div>
+              <div class="img-block h176" style="width: 185px;"></div>
+            </div>
+
+            <div class="gallery-column">
+              <div class="img-block h176 w250"></div>
+              <div class="img-block h176 w250"></div>
+            </div>
+
+            <div class="gallery-column">
+              <div class="img-block h176 w370"></div>
+              <div class="img-block h176 w370"></div>
+            </div>
+
+            <div class="gallery-column">
+              <div class="img-block h176 w140"></div>
+              <div class="img-block h176 w140"></div>
+            </div>
+
+            <div class="gallery-column flex1">
+              <div class="img-block h176"></div>
+              <div class="img-block h176"></div>
+            </div>
+
+            <div class="gallery-column flex1">
+              <div class="img-block h176"></div>
+              <div class="img-block h176 w250"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

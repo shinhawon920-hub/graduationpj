@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>어린이 친화 글쓰기 - 글 도서관</title>
+  <link rel="stylesheet" href="mainhome.css" />
+  <link rel="stylesheet" href="library.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+  <!-- 상단 헤더 (mainpage.html과 동일) -->
+  <header class="header">
+    <div class="header-left">
+      <button class="back-button" onclick="history.back()">←</button>
+      <h1 class="logo">어린이친화 글쓰기</h1>
+    </div>
+    <nav class="header-right">
+      <a href="home.html" class="nav-link">홈</a>
+      <a href="#" class="nav-link active">마이페이지</a>
+    </nav>
+  </header>
+
+  <!-- 전체 레이아웃 래퍼 (왼쪽 네비 + 오른쪽 내용) -->
+  <div class="layout-with-sidebar">
+    <!-- 왼쪽 네비게이션 바 (mainpage.html과 동일 구조) -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">✏️</span>
+        <span class="logo-text">김재현님<br />안녕하세요</span>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="mainpage.html" class="sidebar-item">
+          <span class="sidebar-icon">🏠</span>
+          <span class="sidebar-label">홈</span>
+        </a>
+        <a href="library.html" class="sidebar-item active">
+          <span class="sidebar-icon">📘</span>
+          <span class="sidebar-label">글 도서관</span>
+        </a>
+        <a href="property.html" class="sidebar-item">
+          <span class="sidebar-icon">🔧</span>
+          <span class="sidebar-label">속성</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <span class="sidebar-icon">⚙️</span>
+          <span class="sidebar-label">설정</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="sidebar-mini-btn">도움말</button>
+      </div>
+    </aside>
+
+    <!-- 오른쪽 실제 페이지 내용 -->
+    <main class="page-content">
+      <div class="library-page">
+        <!-- 뷰 모드 라디오 (CSS-only 토글용) -->
+        <input
+          type="radio"
+          id="view-grid"
+          name="library-view"
+          class="view-input"
+          checked
+        />
+        <input
+          type="radio"
+          id="view-list"
+          name="library-view"
+          class="view-input"
+        />
+
+        <!-- 상단 제목 + 토글 -->
+        <section class="library-header">
+          <div class="library-header-text">
+            <h2 class="library-title">글 도서관</h2>
+            <p class="library-subtitle">
+              내가 쓴 모든 글을 한눈에 보고, 보기 방식을 그리드와 리스트로 바꿔볼 수 있어요.
+            </p>
+          </div>
+          <div class="library-toolbar">
+            <span class="library-toolbar-label">보기 방식</span>
+            <div class="view-toggle" role="group" aria-label="보기 방식 선택">
+              <label class="toggle-button toggle-grid" for="view-grid">
+                그리드
+              </label>
+              <label class="toggle-button toggle-list" for="view-list">
+                리스트
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- 실제 글 목록 영역 -->
+        <div class="library-content">
+          <!-- 그리드 뷰: 카드 레이아웃 -->
+          <section class="library-grid view-panel" aria-label="그리드 보기">
+            <article class="library-card">
+              <div class="card-top-row">
+                <span class="status-pill">완성</span>
+                <span class="length-label">문장 12개</span>
+              </div>
+              <h3 class="library-card-title">
+                <a href="#">나의 첫 번째 이야기</a>
+              </h3>
+              <p class="library-card-meta">
+                <time datetime="2025-02-10">2025.02.10</time> · 기분: 즐거워요
+              </p>
+              <p class="library-card-excerpt">
+                오늘은 날씨가 참 좋았어요. 학교에서 친구들과 함께 운동장에서 달리기를 했어요...
+              </p>
+              <div class="library-card-tags">
+                <span class="tag-pill">일기</span>
+                <span class="tag-pill">학교</span>
+              </div>
+            </article>
+
+            <article class="library-card">
+              <div class="card-top-row">
+                <span class="status-pill status-draft">임시 저장</span>
+                <span class="length-label">문장 7개</span>
+              </div>
+              <h3 class="library-card-title">
+                <a href="#">우주 탐험 이야기</a>
+              </h3>
+              <p class="library-card-meta">
+                <time datetime="2025-02-08">2025.02.08</time> · 기분: 설레요
+              </p>
+              <p class="library-card-excerpt">
+                나는 작은 우주선을 타고 달에 갔어요. 까만 하늘에 반짝이는 별들이 가득했어요...
+              </p>
+              <div class="library-card-tags">
+                <span class="tag-pill">상상</span>
+                <span class="tag-pill">우주</span>
+              </div>
+            </article>
+
+            <article class="library-card">
+              <div class="card-top-row">
+                <span class="status-pill">완성</span>
+                <span class="length-label">문장 4개</span>
+              </div>
+              <h3 class="library-card-title">
+                <a href="#">오늘의 한 줄</a>
+              </h3>
+              <p class="library-card-meta">
+                <time datetime="2025-02-05">2025.02.05</time> · 기분: 고마워요
+              </p>
+              <p class="library-card-excerpt">
+                오늘 엄마가 나를 꼭 안아주었어요. 따뜻한 마음이 전해져서 나도 기분이 좋아졌어요.
+              </p>
+              <div class="library-card-tags">
+                <span class="tag-pill">일상</span>
+              </div>
+            </article>
+          </section>
+
+          <!-- 리스트 뷰: 행 레이아웃 -->
+          <section class="library-list view-panel" aria-label="리스트 보기">
+            <article class="library-row">
+              <div class="row-main">
+                <h3 class="row-title">
+                  <a href="#">나의 첫 번째 이야기</a>
+                </h3>
+                <p class="row-meta">
+                  <time datetime="2025-02-10">2025.02.10</time> · 문장 12개 · 기분: 즐거워요
+                </p>
+              </div>
+              <div class="row-tags">
+                <span class="row-status">완성</span>
+                <span class="row-pill">일기</span>
+                <span class="row-pill">학교</span>
+              </div>
+            </article>
+
+            <article class="library-row">
+              <div class="row-main">
+                <h3 class="row-title">
+                  <a href="#">우주 탐험 이야기</a>
+                </h3>
+                <p class="row-meta">
+                  <time datetime="2025-02-08">2025.02.08</time> · 문장 7개 · 기분: 설레요
+                </p>
+              </div>
+              <div class="row-tags">
+                <span class="row-status row-status-draft">임시 저장</span>
+                <span class="row-pill">상상</span>
+                <span class="row-pill">우주</span>
+              </div>
+            </article>
+
+            <article class="library-row">
+              <div class="row-main">
+                <h3 class="row-title">
+                  <a href="#">오늘의 한 줄</a>
+                </h3>
+                <p class="row-meta">
+                  <time datetime="2025-02-05">2025.02.05</time> · 문장 4개 · 기분: 고마워요
+                </p>
+              </div>
+              <div class="row-tags">
+                <span class="row-status">완성</span>
+                <span class="row-pill">일상</span>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+

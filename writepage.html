@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>어린이 친화 글쓰기 - 글쓰기</title>
+  <!-- 공통 헤더 / 사이드바 스타일 -->
+  <link rel="stylesheet" href="mainhome.css" />
+  <!-- 글쓰기 페이지 전용 스타일 -->
+  <link rel="stylesheet" href="sub.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+  <!-- 상단 헤더 (mainpage.html과 동일) -->
+  <header class="header">
+    <div class="header-left">
+      <button class="back-button" onclick="history.back()">←</button>
+      <h1 class="logo">어린이친화 글쓰기</h1>
+    </div>
+    <nav class="header-right">
+      <a href="home.html" class="nav-link">홈</a>
+      <a href="#" class="nav-link active">마이페이지</a>
+    </nav>
+  </header>
+
+  <!-- 전체 레이아웃 래퍼 (왼쪽 네비 + 오른쪽 내용) -->
+  <div class="layout-with-sidebar">
+    <!-- 왼쪽 네비게이션 바 (mainpage.html과 동일) -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">✏️</span>
+        <span class="logo-text">김재현님<br />안녕하세요</span>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="mainpage.html" class="sidebar-item">
+          <span class="sidebar-icon">🏠</span>
+          <span class="sidebar-label">홈</span>
+        </a>
+        <a href="home.html" class="sidebar-item active">
+          <span class="sidebar-icon">📘</span>
+          <span class="sidebar-label">글 도서관</span>
+        </a>
+        <a href="property.html" class="sidebar-item">
+          <span class="sidebar-icon">🔧</span>
+          <span class="sidebar-label">속성</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <span class="sidebar-icon">⚙️</span>
+          <span class="sidebar-label">설정</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="sidebar-mini-btn">도움말</button>
+      </div>
+    </aside>
+
+    <!-- 오른쪽 실제 페이지 내용 -->
+    <main class="page-content">
+      <div class="write-page">
+        <!-- 상단 소개 영역 -->
+        <section class="write-header">
+          <div class="write-header-text">
+            <span class="write-badge">새 글 쓰기</span>
+            <h2 class="write-title">오늘의 이야기를 써봐요</h2>
+            <p class="write-subtitle">
+              오늘 있었던 일, 느꼈던 감정을 어린이도 쉽게 읽을 수 있게 한 줄 한 줄 적어보세요.
+            </p>
+          </div>
+          <div class="write-meta">
+            <div class="meta-item">
+              <span class="meta-label">현재 글자 수</span>
+              <span class="meta-value">0 / 1,000</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">난이도</span>
+              <span class="meta-badge">쉬운 말</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 본문 레이아웃: 왼쪽 에디터 / 오른쪽 미리보기/팁 -->
+        <section class="write-layout">
+          <!-- 왼쪽: 글쓰기 에디터 -->
+          <div class="editor-column">
+            <div class="field-group">
+              <label class="field-label" for="story-title">이야기 제목</label>
+              <input
+                id="story-title"
+                class="text-input"
+                type="text"
+                placeholder="예) 학교에서 있었던 특별한 하루"
+              />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="story-body">이야기 본문</label>
+              <div class="editor-card">
+                <div class="editor-toolbar">
+                  <button type="button" class="toolbar-button">굵게</button>
+                  <button type="button" class="toolbar-button">밑줄</button>
+                  <button type="button" class="toolbar-button">중요 표시</button>
+                  <span class="toolbar-divider"></span>
+                  <button type="button" class="toolbar-button small">문장 나누기</button>
+                </div>
+                <textarea
+                  id="story-body"
+                  class="text-area"
+                  placeholder="어린이가 읽을 수 있도록, 짧고 쉬운 문장으로 써보세요.&#10;예) 오늘 나는 학교에서 새로운 친구를 만났어요."
+                ></textarea>
+                <p class="helper-text">
+                  너무 긴 문장은 둘로 나누고, 어려운 단어는 쉬운 말로 바꿔보세요.
+                </p>
+              </div>
+            </div>
+
+            <div class="field-group field-group-inline">
+              <div class="field-half">
+                <label class="field-label" for="story-goal">이 글의 목표</label>
+                <input
+                  id="story-goal"
+                  class="text-input"
+                  type="text"
+                  placeholder="예) 친구와 사이좋게 지내고 싶어요."
+                />
+              </div>
+              <div class="field-half">
+                <label class="field-label" for="story-feeling">전하고 싶은 기분</label>
+                <input
+                  id="story-feeling"
+                  class="text-input"
+                  type="text"
+                  placeholder="예) 즐거운 마음, 고마운 마음"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 오른쪽: 미리보기 & 팁 -->
+          <aside class="preview-column">
+            <div class="preview-card">
+              <p class="preview-label">어린이 눈높이 미리보기</p>
+              <h3 class="preview-title">이야기 제목이 여기 보여요</h3>
+              <div class="preview-tags">
+                <span class="tag-pill">주인공: 나</span>
+                <span class="tag-pill">장소: 학교</span>
+                <span class="tag-pill">기분: 즐거워요</span>
+              </div>
+              <p class="preview-text">
+                여기에 내가 쓴 이야기가 어린이 책처럼 보여요. 문장이 너무 길지는 않은지,
+                어려운 말은 없는지 한 번 더 살펴볼 수 있어요.
+              </p>
+            </div>
+
+            <div class="tip-card">
+              <h4 class="tip-title">어린이친화 글쓰기 꿀팁</h4>
+              <ul class="tip-list">
+                <li>한 문장은 한 가지 내용만 담아요.</li>
+                <li>어려운 단어 대신 쉬운 단어를 골라보세요.</li>
+                <li>친구에게 말하듯이, 부드러운 말을 사용해요.</li>
+                <li>읽는 사람이 어떻게 느낄지 한 번 더 생각해봐요.</li>
+              </ul>
+            </div>
+          </aside>
+        </section>
+
+        <!-- 하단 버튼 -->
+        <section class="write-actions">
+          <button class="secondary-button" type="button">
+            임시 저장
+          </button>
+          <button class="primary-button" type="button">
+            완성하기
+          </button>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+
