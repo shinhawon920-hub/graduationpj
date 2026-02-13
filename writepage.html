@@ -169,13 +169,41 @@
           <button class="secondary-button" type="button">
             임시 저장
           </button>
-          <button class="primary-button" type="button">
+          <button class="primary-button" type="button" id="btn-complete">
             완성하기
           </button>
         </section>
       </div>
     </main>
   </div>
+  <script>
+    document.getElementById('btn-complete').addEventListener('click', function () {
+      var title = document.getElementById('story-title').value.trim();
+      var body = document.getElementById('story-body').value.trim();
+      var goal = document.getElementById('story-goal').value.trim();
+      var feeling = document.getElementById('story-feeling').value.trim();
+      var data = {
+        title: title || '제목 없음',
+        body: body || '내용이 없어요.',
+        goal: goal,
+        feeling: feeling,
+        score: 85,
+        goodPoints: [
+          '한 문장에 한 가지 내용만 담아서 읽기 쉬워요.',
+          '친구에게 말하듯 부드러운 말을 사용했어요.',
+          '어려운 단어를 쉬운 말로 잘 바꿨어요.'
+        ],
+        improvePoints: [
+          '이 부분 문장을 나누면 어린이가 더 잘 이해할 수 있어요.',
+          '\'~했습니다\' 대신 \'~했어요\'처럼 말하기 쉬운 표현을 쓰면 좋아요.'
+        ]
+      };
+      try {
+        sessionStorage.setItem('writingFeedbackData', JSON.stringify(data));
+      } catch (e) {}
+      window.location.href = 'feedback.html';
+    });
+  </script>
 </body>
 </html>
 
