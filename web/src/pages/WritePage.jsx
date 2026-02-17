@@ -11,6 +11,8 @@ export default function WritePage() {
   const [body, setBody] = useState("");
   const [goal, setGoal] = useState("");
   const [feeling, setFeeling] = useState("");
+  const [showDraftModal, setShowDraftModal] = useState(false);
+  const [drafts, setDrafts] = useState([]);
 
   const charCount = body.length;
   const charLimit = 1000;
@@ -25,6 +27,25 @@ export default function WritePage() {
     () => ["주인공: 나", "장소: 학교", "기분: 즐거워요"],
     []
   );
+
+  const loadDraftsFromStorage = () => {
+    try {
+      const raw = sessionStorage.getItem("writingDrafts_v1");
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveDraftsToStorage = (nextDrafts) => {
+    try {
+      sessionStorage.setItem("writingDrafts_v1", JSON.stringify(nextDrafts));
+    } catch {
+      // ignore
+    }
+  };
 
   const handleComplete = () => {
     const data = {
@@ -45,16 +66,12 @@ export default function WritePage() {
       ],
     };
 
-    // 기존 sessionStorage 흐름 유지 (추후 더미 API/백엔드로 교체)
-    try {
-      sessionStorage.setItem("writingFeedbackData", JSON.stringify(data));
-    } catch (_) {}
-
-    navigate("/feedback");
+    navigate("/feedback", { state: data });
   };
 
   const handleTempSave = () => {
     const draft = {
+      id: String(Date.now()),
       title,
       body,
       goal,
@@ -63,10 +80,38 @@ export default function WritePage() {
     };
 
     try {
+      // 마지막 임시 저장본 (이전 호환용)
       sessionStorage.setItem("writingDraft", JSON.stringify(draft));
+
+      // 여러 개 임시 저장 리스트
+      const existing = loadDraftsFromStorage();
+      const next = [draft, ...existing];
+      saveDraftsToStorage(next);
     } catch (_) {}
     // UX는 추후 토스트로 교체 가능
     alert("임시 저장되었습니다.");
+  };
+
+  const handleOpenDraftModal = () => {
+    const list = loadDraftsFromStorage();
+    if (!list.length) {
+      alert("임시 저장된 글이 없습니다.");
+      return;
+    }
+    setDrafts(list);
+    setShowDraftModal(true);
+  };
+
+  const handleCloseDraftModal = () => {
+    setShowDraftModal(false);
+  };
+
+  const handleLoadDraft = (draft) => {
+    setTitle(draft.title || "");
+    setBody(draft.body || "");
+    setGoal(draft.goal || "");
+    setFeeling(draft.feeling || "");
+    setShowDraftModal(false);
   };
 
   return (
@@ -74,7 +119,24 @@ export default function WritePage() {
       {/* 상단 소개 영역 */}
       <section className="write-header">
         <div className="write-header-text">
-          <span className="write-badge">새 글 쓰기</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              marginBottom: 8,
+            }}
+          >
+            <span className="write-badge">새 글 쓰기</span>
+            <button
+              type="button"
+              className="secondary-button"
+              style={{ padding: "6px 10px", fontSize: 12 }}
+              onClick={handleOpenDraftModal}
+            >
+              임시 저장 불러오기
+            </button>
+          </div>
           <h2 className="write-title">오늘의 이야기를 써봐요</h2>
           <p className="write-subtitle">
             오늘 있었던 일, 느꼈던 감정을 어린이도 쉽게 읽을 수 있게 한 줄 한 줄
@@ -221,6 +283,121 @@ export default function WritePage() {
           완성하기
         </button>
       </section>
+
+      {showDraftModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 520,
+              backgroundColor: "white",
+              borderRadius: 16,
+              padding: 24,
+              boxShadow: "0 10px 40px rgba(0,0,0,0.15)",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: 12 }}>임시 저장 불러오기</h3>
+            <p style={{ marginTop: 0, marginBottom: 16, fontSize: 14, color: "#555" }}>
+              아래에서 불러오고 싶은 임시 저장 글을 선택하세요.
+            </p>
+            <div
+              style={{
+                maxHeight: 320,
+                overflowY: "auto",
+                marginBottom: 16,
+              }}
+            >
+              {drafts.map((d) => {
+                const dateLabel = d.savedAt
+                  ? new Date(d.savedAt).toLocaleString()
+                  : "";
+                const titlePreview = d.title?.trim() || "제목 없음";
+                const bodyPreview = (d.body || "").slice(0, 80);
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => handleLoadDraft(d)}
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      padding: "10px 12px",
+                      borderRadius: 8,
+                      border: "1px solid #e2e2e2",
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: 4,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          fontSize: 14,
+                        }}
+                      >
+                        {titlePreview}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          color: "#888",
+                          marginLeft: 8,
+                        }}
+                      >
+                        {dateLabel}
+                      </span>
+                    </div>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 13,
+                        color: "#555",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {bodyPreview || "본문이 없습니다."}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 8,
+              }}
+            >
+              <button
+                type="button"
+                className="secondary-button"
+                onClick={handleCloseDraftModal}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

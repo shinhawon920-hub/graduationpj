@@ -1,10 +1,17 @@
 // src/pages/LibraryPage.jsx
 import "../styles/layout.css";
 import "../styles/library.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { loadEssays } from "../lib/storage";
 
 export default function LibraryPage() {
-  const navigate = useNavigate();
+  const [essays, setEssays] = useState([]);
+
+  useEffect(() => {
+    setEssays(loadEssays());
+  }, []);
+
 
   return (
     <div className="library-page">
@@ -50,120 +57,102 @@ export default function LibraryPage() {
       <div className="library-content">
         {/* 그리드 뷰: 카드 레이아웃 */}
         <section className="library-grid view-panel" aria-label="그리드 보기">
-          <article className="library-card">
-            <div className="card-top-row">
-              <span className="status-pill">완성</span>
-              <span className="length-label">문장 12개</span>
-            </div>
-            <h3 className="library-card-title">
-              <Link to="/essay/1">나의 첫 번째 이야기</Link>
-            </h3>
-            <p className="library-card-meta">
-              <time dateTime="2025-02-10">2025.02.10</time> · 기분: 즐거워요
-            </p>
-            <p className="library-card-excerpt">
-              오늘은 날씨가 참 좋았어요. 학교에서 친구들과 함께 운동장에서 달리기를
-              했어요...
-            </p>
-            <div className="library-card-tags">
-              <span className="tag-pill">일기</span>
-              <span className="tag-pill">학교</span>
-            </div>
-          </article>
+          {essays.length === 0 ? (
+            <p style={{ padding: 16 }}>아직 저장된 글이 없어요. 먼저 글을 작성해 보세요.</p>
+          ) : (
+            essays.map((essay) => {
+              const created =
+                essay.createdAt || essay.createdAT || null;
+              const dateLabel = created
+                ? new Date(created).toISOString().slice(0, 10).replace(/-/g, ".")
+                : "";
+              const body = essay.body || "";
+              const preview =
+                body.length > 160 ? `${body.slice(0, 160)}…` : body;
+              const sentenceCount = body
+                ? body
+                    .split(/(?:다\.)|[.!?。\n]/)
+                    .filter((s) => s.trim().length > 0).length
+                : 0;
+              const title = essay.title || "제목 없음";
+              const tags = [];
+              if (essay.goal) tags.push(`목표: ${essay.goal}`);
+              if (essay.feeling) tags.push(`기분: ${essay.feeling}`);
 
-          <article className="library-card">
-            <div className="card-top-row">
-              <span className="status-pill status-draft">임시 저장</span>
-              <span className="length-label">문장 7개</span>
-            </div>
-            <h3 className="library-card-title">
-              <Link to="/essay/2">우주 탐험 이야기</Link>
-            </h3>
-            <p className="library-card-meta">
-              <time dateTime="2025-02-08">2025.02.08</time> · 기분: 설레요
-            </p>
-            <p className="library-card-excerpt">
-              나는 작은 우주선을 타고 달에 갔어요. 까만 하늘에 반짝이는 별들이
-              가득했어요...
-            </p>
-            <div className="library-card-tags">
-              <span className="tag-pill">상상</span>
-              <span className="tag-pill">우주</span>
-            </div>
-          </article>
-
-          <article className="library-card">
-            <div className="card-top-row">
-              <span className="status-pill">완성</span>
-              <span className="length-label">문장 4개</span>
-            </div>
-            <h3 className="library-card-title">
-              <Link to="/essay/3">오늘의 한 줄</Link>
-            </h3>
-            <p className="library-card-meta">
-              <time dateTime="2025-02-05">2025.02.05</time> · 기분: 고마워요
-            </p>
-            <p className="library-card-excerpt">
-              오늘 엄마가 나를 꼭 안아주었어요. 따뜻한 마음이 전해져서 나도 기분이
-              좋아졌어요.
-            </p>
-            <div className="library-card-tags">
-              <span className="tag-pill">일상</span>
-            </div>
-          </article>
+              return (
+                <article className="library-card" key={essay.id}>
+                  <div className="card-top-row">
+                    <span className="status-pill">완성</span>
+                    <span className="length-label">문장 {sentenceCount}개</span>
+                  </div>
+                  <h3 className="library-card-title">{essay.title}</h3>
+                  <p className="library-card-meta">
+                    {dateLabel && <time>{dateLabel}</time>}
+                    {essay.feeling && <> · 기분: {essay.feeling}</>}
+                  </p>
+                  <p className="library-card-excerpt">
+                    <Link to={`/essay/${essay.id}`}>{title}</Link>
+                  </p>
+                  <div className="library-card-tags">
+                    {tags.map((tag) => (
+                      <span className="tag-pill" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              );
+            })
+          )}
         </section>
 
         {/* 리스트 뷰: 행 레이아웃 */}
         <section className="library-list view-panel" aria-label="리스트 보기">
-          <article className="library-row">
-            <div className="row-main">
-              <h3 className="row-title">
-                <Link to="/essay/1">나의 첫 번째 이야기</Link>
-              </h3>
-              <p className="row-meta">
-                <time dateTime="2025-02-10">2025.02.10</time> · 문장 12개 · 기분:
-                즐거워요
-              </p>
-            </div>
-            <div className="row-tags">
-              <span className="row-status">완성</span>
-              <span className="row-pill">일기</span>
-              <span className="row-pill">학교</span>
-            </div>
-          </article>
+          {essays.length === 0 ? (
+            <p style={{ padding: 16 }}>아직 저장된 글이 없어요. 먼저 글을 작성해 보세요.</p>
+          ) : (
+            essays.map((essay) => {
+              const created =
+                essay.createdAt || essay.createdAT || null;
+              const dateLabel = created
+                ? new Date(created).toISOString().slice(0, 10).replace(/-/g, ".")
+                : "";
+              const body = essay.body || "";
+              const sentenceCount = body
+                ? body
+                    .split(/(?:다\.)|[.!?。\n]/)
+                    .filter((s) => s.trim().length > 0).length
+                : 0;
+              const title = essay.title || "제목 없음";
+              const tags = [];
+              if (essay.goal) tags.push(`목표: ${essay.goal}`);
+              if (essay.feeling) tags.push(`기분: ${essay.feeling}`);
 
-          <article className="library-row">
-            <div className="row-main">
-              <h3 className="row-title">
-                <Link to="/essay/2">우주 탐험 이야기</Link>
-              </h3>
-              <p className="row-meta">
-                <time dateTime="2025-02-08">2025.02.08</time> · 문장 7개 · 기분:
-                설레요
-              </p>
-            </div>
-            <div className="row-tags">
-              <span className="row-status row-status-draft">임시 저장</span>
-              <span className="row-pill">상상</span>
-              <span className="row-pill">우주</span>
-            </div>
-          </article>
-
-          <article className="library-row">
-            <div className="row-main">
-              <h3 className="row-title">
-                <Link to="/essay/3">오늘의 한 줄</Link>
-              </h3>
-              <p className="row-meta">
-                <time dateTime="2025-02-05">2025.02.05</time> · 문장 4개 · 기분:
-                고마워요
-              </p>
-            </div>
-            <div className="row-tags">
-              <span className="row-status">완성</span>
-              <span className="row-pill">일상</span>
-            </div>
-          </article>
+              return (
+                <article className="library-row" key={essay.id}>
+                  <div className="row-main">
+                    <h3 className="row-title">
+                      <Link to={`/essay/${essay.id}`}>{title}</Link>
+                    </h3>
+                    <p className="row-meta">
+                      {dateLabel && <time>{dateLabel}</time>}
+                      {` · 문장 ${sentenceCount}개`}
+                      {essay.feeling && <> · 기분: {essay.feeling}</>}
+                    </p>
+                  </div>
+                  <div className="row-tags">
+                    <span className="row-status">완성</span>
+                    {tags.map((tag) => (
+                      <span className="row-pill" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              );
+            })
+          )}
+          <p style={{ marginTop: 8 }}>저장된 글: {essays.length}개</p>
         </section>
       </div>
     </div>

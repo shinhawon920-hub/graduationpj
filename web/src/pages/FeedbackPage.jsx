@@ -2,74 +2,73 @@
 import "../styles/layout.css";
 import "../styles/write.css";
 import "../styles/feedback.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { saveEssay } from "../lib/storage";
+
 
 export default function FeedbackPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   // 기본 더미(데이터 없을 때 화면 뼈대 유지)
-  const fallback = useMemo(
-    () => ({
-      title: "이야기 제목이 여기 보여요",
-      body: "여기에 작성한 본문 내용이 요약되어 보여요.",
-      goal: "친구와 사이좋게",
-      feeling: "즐거운 마음",
-      score: 85,
-      goodPoints: [
-        "한 문장에 한 가지 내용만 담아서 읽기 쉬워요.",
-        "친구에게 말하듯 부드러운 말을 사용했어요.",
-        "어려운 단어를 쉬운 말로 잘 바꿨어요.",
-      ],
-      improvePoints: [
-        "이 부분 문장을 나누면 어린이가 더 잘 이해할 수 있어요.",
-        "‘~했습니다’ 대신 ‘~했어요’처럼 말하기 쉬운 표현을 쓰면 좋아요.",
-      ],
-    }),
-    []
-  );
+  const fallback = {
+    title: "이야기 제목이 여기 보여요",
+    body: "여기에 작성한 본문 내용이 요약되어 보여요.",
+    goal: "친구와 사이좋게",
+    feeling: "즐거운 마음",
+    score: 85,
+    goodPoints: [
+      "한 문장에 한 가지 내용만 담아서 읽기 쉬워요.",
+      "친구에게 말하듯 부드러운 말을 사용했어요.",
+      "어려운 단어를 쉬운 말로 잘 바꿨어요.",
+    ],
+    improvePoints: [
+      "이 부분 문장을 나누면 어린이가 더 잘 이해할 수 있어요.",
+      "‘~했습니다’ 대신 ‘~했어요’처럼 말하기 쉬운 표현을 쓰면 좋아요.",
+    ],
+  };
 
-  const [data, setData] = useState(fallback);
+  const stateData = state && typeof state === "object" ? state : null;
+  const data = stateData ? { ...fallback, ...stateData } : fallback;
 
-  useEffect(() => {
-    // WritePage에서 sessionStorage에 넣어둔 데이터 읽기(추후 더미 API/백엔드로 교체)
-    try {
-      const raw = sessionStorage.getItem("writingFeedbackData");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        setData((prev) => ({ ...prev, ...parsed }));
-      }
-    } catch (_) {}
-  }, []);
-
-  const summaryBody = useMemo(() => {
+  const summaryBody = (() => {
     const text = data?.body ?? "";
     if (!text) return fallback.body;
     return text.length > 200 ? text.slice(0, 200) + "…" : text;
-  }, [data?.body, fallback.body]);
+  })();
 
-  const tags = useMemo(() => {
+  const tags = (() => {
     const t = [];
     if (data?.goal) t.push(`목표: ${data.goal}`);
     if (data?.feeling) t.push(`기분: ${data.feeling}`);
     return t.length ? t : [`목표: ${fallback.goal}`, `기분: ${fallback.feeling}`];
-  }, [data?.goal, data?.feeling, fallback.goal, fallback.feeling]);
+  })();
 
-  const goodPoints = (data?.goodPoints?.length ? data.goodPoints : fallback.goodPoints) ?? [];
+  const goodPoints =
+    (data?.goodPoints?.length ? data.goodPoints : fallback.goodPoints) ?? [];
   const improvePoints =
     (data?.improvePoints?.length ? data.improvePoints : fallback.improvePoints) ?? [];
 
   const onSave = () => {
-    // (임시) 저장 동작은 나중에 더미 API/백엔드로 연결
-    // 현재는 로컬 저장만 해둠
-    try {
-      const saved = {
-        ...data,
-        savedAt: new Date().toISOString(),
-      };
-      sessionStorage.setItem("savedEssay", JSON.stringify(saved));
-    } catch (_) {}
-    alert("저장(임시) 처리되었습니다.");
+    //저장할 글이 없는 경우 막아두기
+    if (!data?.title || !data?.body) {
+        alert("제목과 내용을 입력해주세요.");
+        return;
+    }
+
+    const essay = {
+      id: String(Date.now()),
+      title: data.title ?? "제목 없음",
+      body: data.body ?? "내용이 없어요.",
+      goal: data.goal ?? "",
+      feeling: data.feeling ?? "",
+      score: data.score ?? 0,
+      goodPoints,
+      improvePoints,
+      createdAt: new Date().toISOString(),
+    };
+    saveEssay(essay);
+    navigate("/library");
   };
 
   const onEdit = () => {
@@ -165,8 +164,9 @@ export default function FeedbackPage() {
           다시 수정하기
         </button>
         <button className="secondary-button" type="button" onClick={onSave}>
-          저장하기
+        저장하기
         </button>
+
         <button className="primary-button" type="button" onClick={onGoLibrary}>
           글 도서관으로
         </button>
