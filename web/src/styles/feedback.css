@@ -1,0 +1,203 @@
+/* ================================
+   피드백 페이지 (글 완성 후)
+   ================================ */
+.feedback-page .feedback-header {
+  margin-bottom: 24px;
+}
+
+.feedback-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.feedback-summary-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #edf0ff;
+  box-shadow: 0 8px 20px rgba(92, 120, 255, 0.08);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.feedback-section-title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8b90b5;
+  letter-spacing: 0.02em;
+}
+
+.summary-content {
+  padding: 4px 0 0;
+}
+
+.summary-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2b2f5c;
+}
+
+.summary-body {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #50557c;
+}
+
+.summary-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.feedback-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.score-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #edf0ff;
+  box-shadow: 0 6px 16px rgba(92, 120, 255, 0.06);
+  padding: 16px 18px;
+}
+
+.score-main {
+  text-align: center;
+  padding: 20px 24px;
+  background: linear-gradient(145deg, #f8fbff 0%, #ffffff 100%);
+  border: 1px solid #d8ddff;
+}
+
+.score-main .score-label {
+  display: block;
+  font-size: 12px;
+  color: #8b90b5;
+  margin-bottom: 4px;
+}
+
+.score-main .score-value {
+  font-size: 42px;
+  font-weight: 800;
+  color: #4a5cff;
+  line-height: 1.1;
+}
+
+.score-main .score-unit {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a5cff;
+  margin-left: 2px;
+}
+
+.score-main .score-desc {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #646a97;
+}
+
+.score-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.score-sub {
+  text-align: center;
+  padding: 12px 10px;
+}
+
+.score-sub .score-label {
+  display: block;
+  font-size: 11px;
+  color: #8b90b5;
+  margin-bottom: 4px;
+}
+
+.score-sub .score-value.small {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2b2f5c;
+}
+
+.feedback-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.feedback-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #edf0ff;
+  box-shadow: 0 6px 16px rgba(92, 120, 255, 0.06);
+  padding: 14px 16px;
+}
+
+.feedback-card-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #39407a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feedback-card-icon {
+  font-size: 16px;
+}
+
+.feedback-good {
+  border-left: 4px solid #4caf50;
+}
+
+.feedback-improve {
+  border-left: 4px solid #ff9800;
+}
+
+.feedback-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #50557c;
+}
+
+.feedback-list li {
+  margin-top: 4px;
+}
+
+.feedback-list li:first-child {
+  margin-top: 0;
+}
+
+.feedback-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .score-cards-row {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-actions {
+    flex-direction: column-reversed;
+  }
+
+  .feedback-actions .primary-button,
+  .feedback-actions .secondary-button {
+    width: 100%;
+  }
+}
+
