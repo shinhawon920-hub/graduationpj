@@ -3,6 +3,7 @@ import "../styles/layout.css";
 import "../styles/write.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
+import { requestFeedback } from "../api/feedback";
 
 export default function WritePage() {
   const navigate = useNavigate();
@@ -47,26 +48,30 @@ export default function WritePage() {
     }
   };
 
-  const handleComplete = () => {
-    const data = {
-      title: title.trim() || "제목 없음",
-      body: body.trim() || "내용이 없어요.",
-      goal: goal.trim(),
-      feeling: feeling.trim(),
-      // 아래는 추후 더미/백엔드에서 내려주는 값으로 교체 예정
-      score: 85,
-      goodPoints: [
-        "한 문장에 한 가지 내용만 담아서 읽기 쉬워요.",
-        "친구에게 말하듯 부드러운 말을 사용했어요.",
-        "어려운 단어를 쉬운 말로 잘 바꿨어요.",
-      ],
-      improvePoints: [
-        "이 부분 문장을 나누면 어린이가 더 잘 이해할 수 있어요.",
-        "'~했습니다' 대신 '~했어요'처럼 말하기 쉬운 표현을 쓰면 좋아요.",
-      ],
-    };
-
-    navigate("/feedback", { state: data });
+  const handleComplete = async () => {
+    if (!body.trim()) {
+      alert("글을 입력해주세요.");
+      return;
+    }
+    try {
+      const result = await requestFeedback(body.trim(), 3);
+      navigate("/feedback", {
+        state: {
+          ...result,
+          title: title.trim() || "제목 없음",
+          body: body.trim(),
+          goal: goal.trim(),
+          feeling: feeling.trim(),
+          // 백엔드가 score/goodPoints/improvePoints를 주지 않으면 피드백 페이지에서 fallback 사용
+          score: result.score ?? 85,
+          goodPoints: result.goodPoints,
+          improvePoints: result.improvePoints,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      alert("피드백 요청에 실패했습니다.");
+    }
   };
 
   const handleTempSave = () => {
@@ -113,6 +118,8 @@ export default function WritePage() {
     setFeeling(draft.feeling || "");
     setShowDraftModal(false);
   };
+
+ 
 
   return (
     <div className="write-page">
@@ -201,11 +208,12 @@ export default function WritePage() {
               <textarea
                 id="story-body"
                 className="text-area"
-                placeholder={
-                  "어린이가 읽을 수 있도록, 짧고 쉬운 문장으로 써보세요.\n예) 오늘 나는 학교에서 새로운 친구를 만났어요."
-                }
                 value={body}
-                onChange={(e) => setBody(e.target.value.slice(0, charLimit))}
+                onChange={(e) => setText(e.target.value)}
+                placeholder={
+                  "글을 입력하세요."
+                }
+                
               />
 
               <p className="helper-text">
@@ -260,6 +268,17 @@ export default function WritePage() {
             </div>
 
             <p className="preview-text">{previewBody}</p>
+          </div>
+
+          <div className="realtime-suggestions-card">
+            <h4 className="realtime-suggestions-title">실시간 문법·어휘 추천</h4>
+            <p className="realtime-suggestions-desc">
+              글을 쓰면 여기에 맞춤 문법·어휘 추천이 표시돼요.
+            </p>
+            <div className="realtime-suggestions-list" aria-live="polite">
+              {/* 추후 실시간 추천 결과를 여기에 렌더링 */}
+              <p className="realtime-suggestions-empty">아직 추천이 없어요. 본문을 입력해 보세요.</p>
+            </div>
           </div>
 
           <div className="tip-card">

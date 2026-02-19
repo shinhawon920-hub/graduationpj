@@ -256,9 +256,46 @@
   color: #50557c;
 }
 
+/* 실시간 문법·어휘 추천 카드 */
+.realtime-suggestions-card {
+  margin-top: 12px;
+  background: #fafbff;
+  border-radius: 16px;
+  border: 1px solid #e2e8ff;
+  padding: 12px 14px;
+}
+
+.realtime-suggestions-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #39407a;
+}
+
+.realtime-suggestions-desc {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: #646a97;
+  line-height: 1.4;
+}
+
+.realtime-suggestions-list {
+  min-height: 48px;
+  font-size: 12px;
+  color: #50557c;
+  line-height: 1.5;
+}
+
+.realtime-suggestions-empty {
+  margin: 0;
+  font-size: 12px;
+  color: #8b90b5;
+  font-style: italic;
+}
+
 /* 팁 카드 */
 .tip-card {
-  margin-top: 4px;
+  margin-top: 12px;
   background: #f8fbff;
   border-radius: 16px;
   border: 1px dashed #cfd9ff;

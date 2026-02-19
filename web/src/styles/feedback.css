@@ -45,10 +45,34 @@
   color: #50557c;
 }
 
+.summary-body.essay-detail-body-full {
+  font-size: 15px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
 .summary-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+/* 점수 + 평가 한 박스 (상세 페이지 등) */
+.feedback-score-eval-box {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #edf0ff;
+  box-shadow: 0 8px 20px rgba(92, 120, 255, 0.08);
+  padding: 20px 20px 24px;
+  margin-bottom: 24px;
+}
+
+.feedback-score-eval-box .feedback-scores {
+  margin-bottom: 20px;
+}
+
+.feedback-score-eval-box .feedback-detail-layout {
+  margin-bottom: 0;
 }
 
 .feedback-scores {

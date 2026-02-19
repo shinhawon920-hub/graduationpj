@@ -5,7 +5,6 @@ import "../styles/feedback.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { saveEssay } from "../lib/storage";
 
-
 export default function FeedbackPage() {
   const navigate = useNavigate();
   const { state } = useLocation();

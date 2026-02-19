@@ -195,6 +195,23 @@
   overflow: hidden;
 }
 
+/* 상세 페이지: 그리드 표시 + 본문 전체 표시 */
+.library-grid.essay-detail-view {
+  display: grid;
+}
+.essay-detail-view .library-card {
+  max-width: 100%;
+}
+.essay-detail-body {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: #39407a;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow: visible;
+  display: block;
+}
+
 .library-card-tags {
   display: flex;
   flex-wrap: wrap;
