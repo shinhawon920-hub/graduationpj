@@ -14,6 +14,7 @@ export default function WritePage() {
   const [feeling, setFeeling] = useState("");
   const [showDraftModal, setShowDraftModal] = useState(false);
   const [drafts, setDrafts] = useState([]);
+  const [isCompleteLoading, setIsCompleteLoading] = useState(false);
 
   const charCount = body.length;
   const charLimit = 1000;
@@ -53,6 +54,7 @@ export default function WritePage() {
       alert("글을 입력해주세요.");
       return;
     }
+    setIsCompleteLoading(true);
     try {
       const result = await requestFeedback(body.trim(), 3);
       navigate("/feedback", {
@@ -62,8 +64,6 @@ export default function WritePage() {
           body: body.trim(),
           goal: goal.trim(),
           feeling: feeling.trim(),
-          // 백엔드가 score/goodPoints/improvePoints를 주지 않으면 피드백 페이지에서 fallback 사용
-          score: result.score ?? 85,
           goodPoints: result.goodPoints,
           improvePoints: result.improvePoints,
         },
@@ -72,9 +72,18 @@ export default function WritePage() {
       console.error(err);
       let message = err.message || "피드백 요청에 실패했습니다.";
       if (message.includes("Failed to fetch") || message === "피드백 요청에 실패했습니다.") {
-        message += "\n\n(Vercel: VITE_API_URL, Render: ALLOWED_ORIGINS 확인)";
+        const isLocal =
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1";
+        if (isLocal) {
+          message += "\n\n[로컬] 백엔드가 켜져 있는지 확인하세요.\n터미널에서: cd backend → .venv/bin/uvicorn main:app --reload";
+        } else {
+          message += "\n\n[배포] Render → Environment → ALLOWED_ORIGINS 에 이 사이트 주소 넣기 (예: https://graduationpj.vercel.app)";
+        }
       }
       alert(message);
+    } finally {
+      setIsCompleteLoading(false);
     }
   };
 
@@ -302,8 +311,13 @@ export default function WritePage() {
         <button className="secondary-button" type="button" onClick={handleTempSave}>
           임시 저장
         </button>
-        <button className="primary-button" type="button" onClick={handleComplete}>
-          완성하기
+        <button
+          className="primary-button"
+          type="button"
+          onClick={handleComplete}
+          disabled={isCompleteLoading}
+        >
+          {isCompleteLoading ? "피드백 불러오는 중…" : "완성하기"}
         </button>
       </section>
 

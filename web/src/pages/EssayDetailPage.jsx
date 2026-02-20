@@ -84,33 +84,8 @@ export default function EssayDetailPage() {
         </div>
       </section>
 
-      {/* 점수 + 평가 한 박스 */}
+      {/* 잘한 점 / 개선 제안 */}
       <section className="feedback-score-eval-box">
-        <div className="feedback-scores">
-          <div className="score-card score-main">
-            <span className="score-label">어린이 친화도</span>
-            <span className="score-value">
-              {typeof essay.score === "number" ? essay.score : "—"}
-            </span>
-            <span className="score-unit">점</span>
-            <p className="score-desc">쉬운 말과 짧은 문장을 잘 사용했어요.</p>
-          </div>
-          <div className="score-cards-row">
-            <div className="score-card score-sub">
-              <span className="score-label">문장 길이</span>
-              <span className="score-value small">적당해요</span>
-            </div>
-            <div className="score-card score-sub">
-              <span className="score-label">어휘 난이도</span>
-              <span className="score-value small">쉬워요</span>
-            </div>
-            <div className="score-card score-sub">
-              <span className="score-label">읽기 흐름</span>
-              <span className="score-value small">좋아요</span>
-            </div>
-          </div>
-        </div>
-
         <div className="feedback-detail-layout">
           <div className="feedback-card feedback-good">
             <h4 className="feedback-card-title">
