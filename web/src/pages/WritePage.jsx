@@ -209,7 +209,7 @@ export default function WritePage() {
                 id="story-body"
                 className="text-area"
                 value={body}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => setBody(e.target.value)}
                 placeholder={
                   "글을 입력하세요."
                 }

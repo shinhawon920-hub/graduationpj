@@ -11,15 +11,25 @@
 
 ---
 
-## 1단계: 백엔드 배포 (Render)
+## 1단계: 백엔드 배포 (Render Web Service)
 
-1. [Render 대시보드](https://dashboard.render.com) 로그인 후 **New → Blueprint** 선택.
-2. 이 저장소(GitHub repo) 연결.
-3. Render가 `render.yaml`을 읽어 **graduationpj-api** 서비스를 만듭니다. **Apply** 후 배포 시작.
+1. [Render 대시보드](https://dashboard.render.com) 로그인 후 **New +** → **Web Service** 선택.
+2. 이 프로젝트가 있는 **GitHub 저장소** 연결 (연결이 안 되어 있으면 먼저 "Connect account"로 GitHub 연동).
+3. 아래처럼 설정한 뒤 **Create Web Service** 클릭.
+
+   | 항목 | 값 |
+   |------|-----|
+   | **Name** | 원하는 이름 (예: `graduationpj-api`) |
+   | **Region** | 가까운 지역 선택 |
+   | **Root Directory** | `backend` |
+   | **Runtime** | `Python 3` |
+   | **Build Command** | `pip install -r requirements.txt` |
+   | **Start Command** | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
+
 4. 배포가 끝나면 **서비스 URL**이 생깁니다. 예: `https://graduationpj-api.onrender.com`
 5. **Environment** 탭에서 환경 변수 추가:
-   - **ALLOWED_ORIGINS**  
-     아직 프론트 URL이 없으면 `http://localhost:5173` 입력해 두고, 2단계에서 Vercel URL이 생긴 뒤 **Vercel 사이트 주소**로 바꿉니다.  
+   - **Key**: `ALLOWED_ORIGINS`  
+   - **Value**: 아직 프론트 URL이 없으면 `http://localhost:5173` 입력해 두고, 2단계에서 Vercel URL이 생긴 뒤 **Vercel 사이트 주소**로 바꿉니다.  
      (여러 개면 쉼표로 구분, 예: `https://myapp.vercel.app`)
 
 ---
