@@ -15,7 +15,6 @@ export default function FeedbackPage() {
     body: "여기에 작성한 본문 내용이 요약되어 보여요.",
     goal: "친구와 사이좋게",
     feeling: "즐거운 마음",
-    score: 85,
     goodPoints: [
       "한 문장에 한 가지 내용만 담아서 읽기 쉬워요.",
       "친구에게 말하듯 부드러운 말을 사용했어요.",
@@ -61,7 +60,6 @@ export default function FeedbackPage() {
       body: data.body ?? "내용이 없어요.",
       goal: data.goal ?? "",
       feeling: data.feeling ?? "",
-      score: data.score ?? 0,
       goodPoints,
       improvePoints,
       createdAt: new Date().toISOString(),
@@ -103,31 +101,6 @@ export default function FeedbackPage() {
                 {t}
               </span>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 피드백 점수 & 요약 */}
-      <section className="feedback-scores">
-        <div className="score-card score-main">
-          <span className="score-label">어린이 친화도</span>
-          <span className="score-value">{data.score ?? fallback.score}</span>
-          <span className="score-unit">점</span>
-          <p className="score-desc">쉬운 말과 짧은 문장을 잘 사용했어요.</p>
-        </div>
-
-        <div className="score-cards-row">
-          <div className="score-card score-sub">
-            <span className="score-label">문장 길이</span>
-            <span className="score-value small">적당해요</span>
-          </div>
-          <div className="score-card score-sub">
-            <span className="score-label">어휘 난이도</span>
-            <span className="score-value small">쉬워요</span>
-          </div>
-          <div className="score-card score-sub">
-            <span className="score-label">읽기 흐름</span>
-            <span className="score-value small">좋아요</span>
           </div>
         </div>
       </section>

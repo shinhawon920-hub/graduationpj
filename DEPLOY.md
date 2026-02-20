@@ -68,3 +68,20 @@
 - 백엔드: `ALLOWED_ORIGINS` = 프론트 URL  
 
 둘만 맞춰 주면 됩니다.
+
+---
+
+## "Failed to fetch" 나올 때 (완성하기 눌렀을 때)
+
+대부분 **Render 쪽 CORS** 설정 때문입니다. 아래만 확인하세요.
+
+1. **Render** → [dashboard.render.com](https://dashboard.render.com) 로그인
+2. **graduationpj-api** (백엔드 서비스) 클릭
+3. 왼쪽 메뉴 **Environment** 클릭
+4. **ALLOWED_ORIGINS** 찾기 (없으면 Add → Key: `ALLOWED_ORIGINS`)
+5. **Value**에 **지금 글 쓰는 페이지가 열려 있는 주소** 그대로 넣기  
+   - 예: `https://graduationpj.vercel.app`  
+   - ❌ `https://graduationpj.vercel.app/` (끝에 `/` 넣지 말 것)  
+   - ❌ `http://...` (반드시 `https`)
+6. **Save Changes** → Render가 자동으로 재배포 (1~2분 소요)
+7. 재배포 끝난 뒤 브라우저에서 **완성하기** 다시 시도
