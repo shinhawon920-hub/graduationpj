@@ -70,7 +70,11 @@ export default function WritePage() {
       });
     } catch (err) {
       console.error(err);
-      alert("피드백 요청에 실패했습니다.");
+      let message = err.message || "피드백 요청에 실패했습니다.";
+      if (message.includes("Failed to fetch") || message === "피드백 요청에 실패했습니다.") {
+        message += "\n\n(Vercel: VITE_API_URL, Render: ALLOWED_ORIGINS 확인)";
+      }
+      alert(message);
     }
   };
 
