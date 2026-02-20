@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -5,9 +6,13 @@ from typing import Optional, List, Dict, Any
 
 app = FastAPI()
 
+# 배포 시 프론트 URL을 환경변수 ALLOWED_ORIGINS에 쉼표로 구분해 넣기 (예: https://myapp.vercel.app)
+_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").strip().split(",")
+_origins = [o.strip() for o in _origins if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 export async function requestFeedback(content, grade = 3) {
   const res = await fetch(`${API}/api/feedback`, {
@@ -6,7 +6,7 @@ export async function requestFeedback(content, grade = 3) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ content, grade }),
+    body: JSON.stringify({ body: content, grade }),
   });
 
   if (!res.ok) {
