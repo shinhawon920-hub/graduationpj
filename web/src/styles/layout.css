@@ -60,6 +60,65 @@ body {
   gap: 16px;
 }
 
+.header-help-btn {
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid #e0e3ff;
+  background: #f7f8ff;
+  color: #4a5cff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.header-help-btn:hover {
+  background: #eef1ff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(74, 92, 255, 0.2);
+}
+
+/* 도움말 모달 */
+.help-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 40, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.help-modal {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 80, 0.35);
+}
+
+.help-modal-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2b2f5c;
+}
+
+.help-modal-text {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #555b86;
+}
+
+.help-modal-list {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #555b86;
+}
+
 .nav-link {
   text-decoration: none;
   font-size: 14px;
@@ -107,6 +166,45 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
+}
+
+/* MainPage 전용 레이아웃: 왼쪽 2x2 + 오른쪽 2배 높이 카드 */
+.property-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr)) minmax(240px, 1.05fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.property-main-grid .freewrite-card {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  background: linear-gradient(135deg, #f6f3ff, #eef0ff);
+  border: 1px solid #ded6ff;
+  box-shadow: 0 10px 26px rgba(74, 92, 255, 0.12);
+}
+
+.property-main-grid .freewrite-card .chip {
+  background: rgba(74, 92, 255, 0.12);
+  color: #3a46b8;
+}
+
+.property-main-grid .freewrite-card .chip:hover {
+  background: rgba(74, 92, 255, 0.18);
+  box-shadow: 0 3px 6px rgba(74, 92, 255, 0.22);
+}
+
+@media (max-width: 860px) {
+  .property-main-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .property-main-grid .freewrite-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
 }
 
 /* 카드 공통 스타일 */
@@ -283,7 +381,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: auto;
+  margin-bottom: 12px;
 }
 
 .sidebar-item {
@@ -317,29 +415,6 @@ body {
 }
 
 /* 아래쪽 작은 영역 */
-.sidebar-bottom {
-  margin-top: 18px;
-}
-
-.sidebar-mini-btn {
-  width: 100%;
-  border-radius: 999px;
-  border: none;
-  padding: 8px 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: #4a5cff;
-  background: #ffffff;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.sidebar-mini-btn:hover {
-  background: #f1f3ff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(8, 9, 45, 0.2);
-}
-
 /* 오른쪽 메인 컨텐츠 */
 .page-content {
   flex: 1;

@@ -21,7 +21,7 @@ export default function MainPage() {
       </section>
 
       {/* 속성 카드 영역 */}
-      <section className="property-grid">
+      <section className="property-main-grid">
         {/* 주인공 카드 */}
         <article className="property-card">
           <h3 className="property-title">주인공</h3>
@@ -79,29 +79,28 @@ export default function MainPage() {
           </div>
         </article>
 
-        {/* 목표 카드 */}
-        <article className="property-card property-card-wide">
-          <h3 className="property-title">이야기의 목표</h3>
+        {/* 자유롭게 글쓰기 카드 */}
+        <article className="property-card freewrite-card">
+          <h3 className="property-title">자유롭게 글쓰기</h3>
           <p className="property-description">
-            주인공이 이야기에서 이루고 싶은 것은 무엇인가요?
+            속성 없이 바로 글을 쓰고 싶다면 선택해보세요.
           </p>
-          <textarea
-            className="property-textarea"
-            placeholder={
-              "예) 친구와 사이좋게 지내고 싶어요.\n예) 잃어버린 인형을 찾고 싶어요."
-            }
-          />
+          <div className="chip-group">
+            <button className="chip" onClick={() => navigate("/write")}>
+              바로 글쓰기
+            </button>
+            <button className="chip" onClick={() => navigate("/write")}>
+              아무 주제나
+            </button>
+            <button className="chip" onClick={() => navigate("/write")}>
+              오늘 있었던 일
+            </button>
+          </div>
         </article>
       </section>
 
       {/* 하단 버튼 */}
       <section className="bottom-actions">
-        <button
-          className="secondary-button"
-          onClick={() => navigate("/")}
-        >
-          이전으로
-        </button>
         <button
           className="primary-button"
           onClick={() => navigate("/write")}

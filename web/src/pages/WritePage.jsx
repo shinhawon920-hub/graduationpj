@@ -2,16 +2,17 @@
 import "../styles/layout.css";
 import "../styles/write.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { requestFeedback } from "../api/feedback";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 export default function WritePage() {
   const navigate = useNavigate();
+  const bodyRef = useRef(null);
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [goal, setGoal] = useState("");
-  const [feeling, setFeeling] = useState("");
   const [showDraftModal, setShowDraftModal] = useState(false);
   const [drafts, setDrafts] = useState([]);
   const [isCompleteLoading, setIsCompleteLoading] = useState(false);
@@ -24,11 +25,8 @@ export default function WritePage() {
     ? body.trim()
     : "여기에 내가 쓴 이야기가 어린이 책처럼 보여요. 문장이 너무 길지는 않은지, 어려운 말은 없는지 한 번 더 살펴볼 수 있어요.";
 
-  // (임시) 속성은 추후 property 페이지/더미데이터 연동 시 교체
-  const previewTags = useMemo(
-    () => ["주인공: 나", "장소: 학교", "기분: 즐거워요"],
-    []
-  );
+  // (임시) 속성 태그 - 현재는 비워두고, 나중에 MainPage 등에서 실제 값이 넘어올 때만 채울 예정
+  const previewTags = useMemo(() => [], []);
 
   const loadDraftsFromStorage = () => {
     try {
@@ -62,8 +60,6 @@ export default function WritePage() {
           ...result,
           title: title.trim() || "제목 없음",
           body: body.trim(),
-          goal: goal.trim(),
-          feeling: feeling.trim(),
           goodPoints: result.goodPoints,
           improvePoints: result.improvePoints,
         },
@@ -92,8 +88,6 @@ export default function WritePage() {
       id: String(Date.now()),
       title,
       body,
-      goal,
-      feeling,
       savedAt: new Date().toISOString(),
     };
 
@@ -127,9 +121,45 @@ export default function WritePage() {
   const handleLoadDraft = (draft) => {
     setTitle(draft.title || "");
     setBody(draft.body || "");
-    setGoal(draft.goal || "");
-    setFeeling(draft.feeling || "");
     setShowDraftModal(false);
+  };
+
+  const applyToSelection = ({ prefix = "", suffix = "" }) => {
+    const el = bodyRef.current;
+    if (!el) return;
+
+    const start = el.selectionStart ?? 0;
+    const end = el.selectionEnd ?? 0;
+    const next =
+      body.slice(0, start) +
+      prefix +
+      body.slice(start, end) +
+      suffix +
+      body.slice(end);
+
+    setBody(next);
+
+    requestAnimationFrame(() => {
+      el.focus();
+      const cursor = end + prefix.length + suffix.length;
+      el.setSelectionRange(cursor, cursor);
+    });
+  };
+
+  const insertAtCursor = (text) => {
+    const el = bodyRef.current;
+    if (!el) return;
+
+    const start = el.selectionStart ?? body.length;
+    const end = el.selectionEnd ?? body.length;
+    const next = body.slice(0, start) + text + body.slice(end);
+    setBody(next);
+
+    requestAnimationFrame(() => {
+      el.focus();
+      const cursor = start + text.length;
+      el.setSelectionRange(cursor, cursor);
+    });
   };
 
  
@@ -196,31 +226,40 @@ export default function WritePage() {
             />
           </div>
 
-          <div className="field-group">
+          <div className="field-group field-group-body">
             <label className="field-label" htmlFor="story-body">
               이야기 본문
             </label>
 
             <div className="editor-card">
               <div className="editor-toolbar">
-                <button type="button" className="toolbar-button">
+                <button
+                  type="button"
+                  className="toolbar-button"
+                  onClick={() => applyToSelection({ prefix: "**", suffix: "**" })}
+                >
                   굵게
                 </button>
-                <button type="button" className="toolbar-button">
+                <button
+                  type="button"
+                  className="toolbar-button"
+                  onClick={() => applyToSelection({ prefix: "<u>", suffix: "</u>" })}
+                >
                   밑줄
                 </button>
-                <button type="button" className="toolbar-button">
+                <button
+                  type="button"
+                  className="toolbar-button"
+                  onClick={() => applyToSelection({ prefix: "<mark>", suffix: "</mark>" })}
+                >
                   중요 표시
-                </button>
-                <span className="toolbar-divider"></span>
-                <button type="button" className="toolbar-button small">
-                  문장 나누기
                 </button>
               </div>
 
               <textarea
                 id="story-body"
                 className="text-area"
+                ref={bodyRef}
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={
@@ -235,35 +274,6 @@ export default function WritePage() {
             </div>
           </div>
 
-          <div className="field-group field-group-inline">
-            <div className="field-half">
-              <label className="field-label" htmlFor="story-goal">
-                이 글의 목표
-              </label>
-              <input
-                id="story-goal"
-                className="text-input"
-                type="text"
-                placeholder="예) 친구와 사이좋게 지내고 싶어요."
-                value={goal}
-                onChange={(e) => setGoal(e.target.value)}
-              />
-            </div>
-
-            <div className="field-half">
-              <label className="field-label" htmlFor="story-feeling">
-                전하고 싶은 기분
-              </label>
-              <input
-                id="story-feeling"
-                className="text-input"
-                type="text"
-                placeholder="예) 즐거운 마음, 고마운 마음"
-                value={feeling}
-                onChange={(e) => setFeeling(e.target.value)}
-              />
-            </div>
-          </div>
         </div>
 
         {/* 오른쪽: 미리보기 & 팁 */}
@@ -272,15 +282,21 @@ export default function WritePage() {
             <p className="preview-label">어린이 눈높이 미리보기</p>
             <h3 className="preview-title">{previewTitle}</h3>
 
-            <div className="preview-tags">
-              {previewTags.map((t) => (
-                <span className="tag-pill" key={t}>
-                  {t}
-                </span>
-              ))}
-            </div>
+            {previewTags.length > 0 && (
+              <div className="preview-tags">
+                {previewTags.map((t) => (
+                  <span className="tag-pill" key={t}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
 
-            <p className="preview-text">{previewBody}</p>
+            <div className="preview-text">
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                {previewBody}
+              </ReactMarkdown>
+            </div>
           </div>
 
           <div className="realtime-suggestions-card">
