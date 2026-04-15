@@ -1,112 +1,65 @@
 import "../styles/layout.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const [property, setProperty] = useState({
-    character: "",
-    location: "",
-    time: "",
-    mood: "",
-    goal: "",
-  });
 
   return (
     <div className="property-page">
       {/* 페이지 제목 */}
       <section className="page-title">
-        <h2>이야기 속성 정하기</h2>
-        <p>이야기에 들어갈 주인공, 장소, 기분 등을 골라보세요.</p>
+        <h2>글쓰기 유형 선택</h2>
+        <p>원하는 유형을 고르고 글쓰기를 시작해보세요.</p>
       </section>
 
-      {/* 속성 카드 영역 */}
-      <section className="property-main-grid">
-        {/* 주인공 카드 */}
-        <article className="property-card">
-          <h3 className="property-title">주인공</h3>
-          <p className="property-description">
-            이야기에 나올 주인공을 골라보세요.
-          </p>
-          <div className="chip-group">
-            <button className="chip">나</button>
-            <button className="chip">친구</button>
-            <button className="chip">가족</button>
-            <button className="chip">동물</button>
-          </div>
-        </article>
-
-        {/* 장소 카드 */}
-        <article className="property-card">
-          <h3 className="property-title">장소</h3>
-          <p className="property-description">
-            이야기가 펼쳐지는 장소를 정해요.
-          </p>
-          <div className="chip-group">
-            <button className="chip">학교</button>
-            <button className="chip">집</button>
-            <button className="chip">놀이터</button>
-            <button className="chip">공원</button>
-            <button className="chip">바닷가</button>
-          </div>
-        </article>
-
-        {/* 시간 카드 */}
-        <article className="property-card">
-          <h3 className="property-title">시간</h3>
-          <p className="property-description">
-            이야기가 언제 일어나는지 골라보세요.
-          </p>
-          <div className="chip-group">
-            <button className="chip">아침</button>
-            <button className="chip">점심</button>
-            <button className="chip">저녁</button>
-            <button className="chip">밤</button>
-          </div>
-        </article>
-
-        {/* 기분 카드 */}
-        <article className="property-card">
-          <h3 className="property-title">기분</h3>
-          <p className="property-description">
-            이야기의 전체 분위기를 골라보세요.
-          </p>
-          <div className="chip-group">
-            <button className="chip">즐거워요</button>
-            <button className="chip">신나요</button>
-            <button className="chip">조금 슬퍼요</button>
-            <button className="chip">깜짝 놀라요</button>
-          </div>
-        </article>
-
-        {/* 자유롭게 글쓰기 카드 */}
-        <article className="property-card freewrite-card">
-          <h3 className="property-title">자유롭게 글쓰기</h3>
-          <p className="property-description">
-            속성 없이 바로 글을 쓰고 싶다면 선택해보세요.
-          </p>
-          <div className="chip-group">
-            <button className="chip" onClick={() => navigate("/write")}>
-              바로 글쓰기
-            </button>
-            <button className="chip" onClick={() => navigate("/write")}>
-              아무 주제나
-            </button>
-            <button className="chip" onClick={() => navigate("/write")}>
-              오늘 있었던 일
-            </button>
-          </div>
-        </article>
-      </section>
-
-      {/* 하단 버튼 */}
-      <section className="bottom-actions">
-        <button
-          className="primary-button"
-          onClick={() => navigate("/write")}
+      <section className="property-grid writing-type-grid">
+        <article
+          className="property-card freewrite-card writing-type-card fairy-card"
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate("/keywords")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              navigate("/keywords");
+            }
+          }}
         >
-          글쓰러 가기
-        </button>
+          <div className="writing-type-top">
+            <span className="writing-type-badge">키워드 모드</span>
+            <span className="writing-type-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div className="writing-type-text">
+            <p className="writing-type-headline">동화 글쓰기</p>
+            <p className="writing-type-subtitle">Creative Fairy Tale</p>
+            <p className="writing-type-footer">상상력을 펼쳐서 이야기를 만들어보세요</p>
+          </div>
+          <div className="writing-type-shape" aria-hidden="true" />
+        </article>
+
+        <article
+          className="property-card freewrite-card writing-type-card diary-card"
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate("/write")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              navigate("/write");
+            }
+          }}
+        >
+          <div className="writing-type-top">
+            <span className="writing-type-badge">일상 기록</span>
+            <span className="writing-type-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div className="writing-type-text">
+            <p className="writing-type-headline">일기쓰기</p>
+            <p className="writing-type-subtitle">Daily Journal</p>
+            <p className="writing-type-footer">오늘의 경험과 감정을 편하게 적어보세요</p>
+          </div>
+          <div className="writing-type-shape" aria-hidden="true" />
+        </article>
       </section>
     </div>
   );

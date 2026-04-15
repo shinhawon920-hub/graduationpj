@@ -168,6 +168,150 @@ body {
   gap: 16px;
 }
 
+/* 글쓰기 유형 선택 전용: 동화/일기 동일 크기 2열 */
+.writing-type-grid {
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+}
+
+.writing-type-grid .freewrite-card {
+  aspect-ratio: 0.82 / 1;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 14px;
+  border-radius: 28px;
+}
+
+.writing-type-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-align: left;
+}
+
+.writing-type-card:hover {
+  transform: translateY(-2px);
+}
+
+.writing-type-card:focus-visible {
+  outline: 3px solid rgba(74, 92, 255, 0.28);
+  outline-offset: 2px;
+}
+
+.writing-type-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.writing-type-badge {
+  border: 2px solid rgba(26, 34, 66, 0.36);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2a54;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.writing-type-arrow {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 2px solid rgba(26, 34, 66, 0.36);
+  font-size: 24px;
+  font-weight: 500;
+  color: #1f2a54;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.writing-type-shape {
+  width: 210px;
+  height: 210px;
+  margin-top: auto;
+  transform: translate(12px, 36px);
+  opacity: 0.95;
+}
+
+.writing-type-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  width: 100%;
+  z-index: 1;
+}
+
+.writing-type-headline {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #121a37;
+}
+
+.writing-type-subtitle {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.08;
+  font-weight: 400;
+  font-style: italic;
+  color: #182858;
+}
+
+.writing-type-footer {
+  margin: 10px 0 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1f2a54;
+  line-height: 1.35;
+}
+
+.fairy-card {
+  background: #18d68a;
+  border: 1px solid #0cc57b;
+  box-shadow: 0 14px 32px rgba(5, 120, 72, 0.25);
+}
+
+.diary-card {
+  background: #9df0f0;
+  border: 1px solid #84e4e4;
+  box-shadow: 0 14px 30px rgba(16, 92, 100, 0.18);
+}
+
+.fairy-card .writing-type-shape {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 18%, #ffe95d 0 34%, transparent 35%),
+    radial-gradient(circle at 82% 40%, #ffe95d 0 34%, transparent 35%),
+    radial-gradient(circle at 70% 82%, #ffe95d 0 34%, transparent 35%),
+    radial-gradient(circle at 30% 82%, #ffe95d 0 34%, transparent 35%),
+    radial-gradient(circle at 18% 40%, #ffe95d 0 34%, transparent 35%),
+    radial-gradient(circle at center, #ffc84a 0 22%, transparent 23%);
+}
+
+.diary-card .writing-type-shape {
+  background: #f8ff7f;
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+}
+
 /* MainPage 전용 레이아웃: 왼쪽 2x2 + 오른쪽 2배 높이 카드 */
 .property-main-grid {
   display: grid;
@@ -204,6 +348,22 @@ body {
   .property-main-grid .freewrite-card {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .writing-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .writing-type-grid .freewrite-card {
+    min-height: 460px;
+  }
+
+  .writing-type-headline {
+    font-size: 34px;
+  }
+
+  .writing-type-subtitle {
+    font-size: 34px;
   }
 }
 
@@ -261,6 +421,60 @@ body {
 .chip.selected {
   background: #4a5cff;
   color: #ffffff;
+}
+
+.keyword-chip {
+  min-width: 74px;
+  min-height: 36px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.keyword-chip-emphasis {
+  min-width: 148px;
+  min-height: 72px;
+}
+
+.keyword-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.keyword-card {
+  border: 1px solid #e2e6fb;
+  border-radius: 18px;
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f4f6ff;
+  transition: transform 0.14s ease, box-shadow 0.2s ease, border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.keyword-card:hover {
+  transform: translateY(-1px);
+}
+
+.keyword-card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2a54;
+}
+
+.keyword-card-desc {
+  font-size: 13px;
+  color: #39406b;
+  opacity: 0.9;
+}
+
+.keyword-card.selected {
+  border-color: #4a5cff;
+  background: #eef1ff;
+  box-shadow: 0 0 0 2px rgba(74, 92, 255, 0.18) inset;
 }
 
 /* 텍스트 영역 */
